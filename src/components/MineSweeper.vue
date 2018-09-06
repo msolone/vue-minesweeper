@@ -10,7 +10,8 @@
                  v-on:click="squareClicked(i,j)"
                  v-on:contextmenu="event => squareRightClicked(event, i,j)"
                  >
-                        {{ col }}
+                        {{getSquareContent(col)}}
+                        <Square :character="col.toString()"/>
                 </td>
             </tr>
         </tbody>
@@ -20,8 +21,12 @@
 </template>
 
 <script>
+import Square from './Square.vue';
 export default {
   name: "MineSweeper",
+  components: {
+    Square
+  },
   data: function() {
     return {
       board: [],
@@ -98,6 +103,16 @@ export default {
     resetGame() {
       this.createGame();
       this.message = "New Game";
+    },
+    getSquareContent(space) {
+      //return space
+      if (space === "F") {
+        return '🚩';
+      } else if (space === "*") {
+      return '💣';
+      } else {
+        return space;
+      }
     }
   }
 };
@@ -108,5 +123,52 @@ td {
   border: 3px solid black;
   height: 2em;
   width: 2em;
+}
+.blue-num {
+  color: blue;
+  font-size: 2em;
+}
+
+.green-num {
+  color: green;
+  font-size: 2em;
+}
+
+.red-num {
+  color: red;
+  font-size: 2em;
+}
+
+.purple-num {
+  color: purple;
+  font-size: 2em;
+}
+
+.black-num {
+  color: black;
+  font-size: 2em;
+}
+
+.maroon-num {
+  color: maroon;
+  font-size: 2em;
+}
+
+.gray-num {
+  color: gray;
+  font-size: 2em;
+}
+
+.turquoise-num {
+  color: turquoise;
+  font-size: 2em;
+}
+
+.blank-square {
+  background-color: antiquewhite;
+}
+
+.flag > span {
+  font-size: 2.5em;
 }
 </style>
