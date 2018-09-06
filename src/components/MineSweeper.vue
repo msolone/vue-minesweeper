@@ -1,6 +1,7 @@
 <template>
 <section>
     <h3>{{ message}}</h3>
+    <button v-on:click="resetGame">Reset Game</button>
     <table class="game_board">
         <tbody>
             <tr v-for="(row, i) in board" v-bind:key="i">
@@ -49,6 +50,7 @@ export default {
         });
     },
     squareClicked(i, j) {
+      if (this.message !== 'You Lose!' && this.message !== 'You Win!') {
       console.log("row:", i, "col:", j);
       const BASE_URL = "https://minesweeper-api.herokuapp.com/";
       fetch(`${BASE_URL}games/${this.gameId}/check`, {
@@ -72,6 +74,7 @@ export default {
             this.message = "Watch out for Bombs!";
           }
         });
+        }
     },
     squareRightClicked(event, i, j) {
         
@@ -90,6 +93,10 @@ export default {
           console.log(latestGameData)
            this.board = latestGameData.board
           });    
+    },
+    resetGame() {
+        this.createGame()
+        this.message = 'New Game'
     }
   }
 };
