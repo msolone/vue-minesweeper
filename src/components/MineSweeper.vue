@@ -7,7 +7,7 @@
                 <td class="squares" v-for="(col, j) in row"
                  v-bind:key="j" 
                  v-on:click="squareClicked(i,j)"
-            
+                 v-on:contextmenu="event => squareRightClicked(event, i,j)"
                  >
                         {{ col }}
                 </td>
@@ -61,18 +61,35 @@ export default {
         .then(resp => resp.json())
         .then(latestGame => {
           console.log("Latest Game", latestGame);
-          if (latestGame.state === 'lost') {
+          if (latestGame.state === "lost") {
             this.board = latestGame.board;
-            this.message = 'You Lose!'
-          } else if (latestGame.state === 'won') {
+            this.message = "You Lose!";
+          } else if (latestGame.state === "won") {
             this.board = latestGame.board;
-            this.message = 'You Win!'
+            this.message = "You Win!";
           } else {
             this.board = latestGame.board;
-            this.message = 'Watch out for Bombs!'
+            this.message = "Watch out for Bombs!";
           }
-       
         });
+    },
+    squareRightClicked(event, i, j) {
+        
+      event.preventDefault();
+      console.log("Right Click row:", i, "col:", j);
+      const BASE_URL = "https://minesweeper-api.herokuapp.com/";
+      fetch(`${BASE_URL}games/${this.gameId}/flag`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ row: i, col: j })
+      })
+        .then(resp => resp.json())
+        .then(latestGameData => {
+          console.log(latestGameData)
+           this.board = latestGameData.board
+          });    
     }
   }
 };
