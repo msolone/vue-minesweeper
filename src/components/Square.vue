@@ -13,12 +13,17 @@ export default {
       className: ""
     };
   },
+  mounted: function() {
+      console.log('character:',this.character)
+  },
   updated: function() {
-      console.log(this.character)
+      console.log('character:',this.character)
     if (this.character === "F") {
         this.display = "🚩";
+        this.className = "flag-square";
     } else if (this.character === "*") {
         this.display = "💣";
+        this.className = "bomb-square";
     } else if (this.character === "1") {
         this.display = "1";
         this.className = "blue-num";
@@ -43,6 +48,9 @@ export default {
     } else if (this.character === '8') {
         this.display = '8';
         this.className = "turquoise-num"
+    } else if (this.character === '_') {
+        this.display = "_"
+        this.className = "blank-square"
     }
   }
 };

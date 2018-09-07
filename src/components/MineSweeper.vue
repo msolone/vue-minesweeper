@@ -6,7 +6,7 @@
       <button v-on:click='normalMode'>Normal</button>
       <button v-on:click='hardMode'>Hard</button>
     </section>
-    <button v-on:click="resetGame">Reset Game</button>
+    <button v-on:click="resetGame" class="reset_button">Reset Game</button>
     <table class="game_board">
         <tbody>
             <tr v-for="(row, i) in board" v-bind:key="i">
@@ -141,13 +141,17 @@ export default {
 
 <style scoped>
 td {
-  border: 3px solid black;
+  border: 2px solid #2c3e50;
   height: 2em;
   width: 2em;
 }
 .difficulty_buttons {
   display: flex;
   justify-content: center;
+  padding: 1em;
+}
+.reset_button {
+ margin: 1em;
 }
 .blue-num {
   color: blue;
