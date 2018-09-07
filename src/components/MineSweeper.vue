@@ -1,6 +1,11 @@
 <template>
 <section>
     <h3>{{ message}}</h3>
+    <section class="difficulty_buttons">
+      <button v-on:click='easyMode'>Easy</button>
+      <button v-on:click='normalMode'>Normal</button>
+      <button v-on:click='hardMode'>Hard</button>
+    </section>
     <button v-on:click="resetGame">Reset Game</button>
     <table class="game_board">
         <tbody>
@@ -11,7 +16,7 @@
                  v-on:contextmenu="event => squareRightClicked(event, i,j)"
                  >
                         {{getSquareContent(col)}}
-                        <Square :character="col.toString()"/>
+                        <!-- <Square :character="col.toString()"/> -->
                 </td>
             </tr>
         </tbody>
@@ -31,7 +36,8 @@ export default {
     return {
       board: [],
       gameId: 0,
-      message: "Let's Play MineSweeper"
+      message: "Let's Play MineSweeper",
+      difficulty: 0
     };
   },
   mounted: function() {
@@ -42,7 +48,7 @@ export default {
       const BASE_URL = "https://minesweeper-api.herokuapp.com/";
       fetch(`${BASE_URL}games`, {
         method: "POST",
-        body: JSON.stringify({ difficulty: 0 }),
+        body: JSON.stringify({ difficulty: this.difficulty }),
         headers: {
           "Content-Type": "application/json"
         }
@@ -113,6 +119,21 @@ export default {
       } else {
         return space;
       }
+    },
+    easyMode() {
+      this.difficulty = 0
+      this.createGame()
+      this.message = "Easy Mode";
+    },
+    normalMode() {
+      this.difficulty = 1
+      this.createGame()
+      this.message = "Normal Mode";
+    },
+    hardMode() {
+      this.difficulty = 2
+      this.createGame()
+      this.message = "Hard Mode";
     }
   }
 };
@@ -123,6 +144,10 @@ td {
   border: 3px solid black;
   height: 2em;
   width: 2em;
+}
+.difficulty_buttons {
+  display: flex;
+  justify-content: center;
 }
 .blue-num {
   color: blue;
